@@ -1,0 +1,28 @@
+from google.colab import drive
+drive.mount('/content/drive')
+import pandas as pd
+path = "/content/drive/MyDrive/Final AI CLINIC/player_statistics_final.xlsx"
+data = pd.read_excel(path)
+data.columns = data.columns.str.strip()
+data['Season'] = data['Season'].astype(str)
+players_of_interest = [
+    'Cristiano Ronaldo',
+    'Robert Lewandowski',
+    'Sadio Mané',
+    'Erling Haaland',
+    'Kylian Mbappé']
+seasons_dict = {
+    'Cristiano Ronaldo': ['2016', '2017', '2018', '2019'],
+    'Robert Lewandowski': ['2019', '2020', '2021', '2022'],
+    'Sadio Mané': ['2020', '2021', '2022', '2023'],
+    'Erling Haaland': ['2020', '2021', '2022', '2023'],
+    'Kylian Mbappé': ['2016', '2017', '2018', '2019']}
+all_seasons = sum(seasons_dict.values(), [])
+filtered_data = data[
+    (data['Player'].isin(players_of_interest)) &
+    (data['Season'].isin(all_seasons))]
+print("Filtered Player Statistics:")
+display(filtered_data)
+filtered_path = "/content/drive/MyDrive/DATA ANALYSIS/corrected_player_statistics_filtered.xlsx"
+filtered_data.to_excel(filtered_path, index=False)
+print(f"Filtered player statistics saved to: {filtered_path}")
